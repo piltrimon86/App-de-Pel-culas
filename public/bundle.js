@@ -1,8 +1,9 @@
 'use strict';
 
-const fetchGenres = async () => {
-    const url =
-        'https://api.themoviedb.org/3/genre/movie/list?api_key=31e525640d7e0c401602ee3129373d56&language=es-ES';
+const fetchGenres = async (filter = 'movie') => {
+    const type = filter === 'movie' ? 'movie' : 'tv';
+
+    const url = `https://api.themoviedb.org/3/genre/${type}/list?api_key=31e525640d7e0c401602ee3129373d56&language=es-ES`;
 
     try {
         const response = await fetch(url);
@@ -24,9 +25,10 @@ const getGenre = (id, genres) => {
     return name
 };
 
-const fetchPopular = async () => {
-    const url =
-        'https://api.themoviedb.org/3/movie/popular?api_key=31e525640d7e0c401602ee3129373d56&language=es-ES&page=1';
+const fetchPopular = async (filter = 'movie') => {
+    const type = filter === 'movie' ? 'movie' : 'tv';
+
+    const url = `https://api.themoviedb.org/3/${type}/popular?api_key=31e525640d7e0c401602ee3129373d56&language=es-ES&page=1`;
 
     try {
         const response = await fetch(url);
@@ -46,8 +48,11 @@ const fetchPopular = async () => {
 
 const containerGenre = document.getElementById('filtro-generos');
 
-const uploadGenre = async () => {
-    const genres = await fetchGenres();
+const uploadGenre = async (filter) => {
+    const genres = await fetchGenres(filter);
+
+    containerGenre.innerHTML = '';
+
     genres.forEach((genre) => {
         const btn = document.createElement('button');
         btn.classList.add('btn');
@@ -60,6 +65,8 @@ const uploadGenre = async () => {
 
 const uploadTitle = (results) => {
     const container = document.querySelector('#populares .main__grid');
+
+    container.innerHTML = '';
 
     results.forEach((elm) => {
         const template = `
@@ -75,10 +82,30 @@ const uploadTitle = (results) => {
     });
 };
 
+const filterMovie = document.getElementById('movie');
+const filterTv = document.getElementById('tv');
+
+filterMovie.addEventListener('click', (e) => {
+    e.preventDefault();
+});
+
+filterTv.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    // Cargamos los generos en la barra lateral
+    uploadGenre('tv');
+
+    // Obtenemos los resultados
+    const results = await fetchPopular('tv');
+
+    // Los cargamos en el DOM
+    uploadTitle(results);
+});
+
 const upload = async () => {
     const results = await fetchPopular();
     uploadTitle(results);
-    uploadGenre();
+    uploadGenre('movie');
 };
 upload();
 //# sourceMappingURL=bundle.js.map

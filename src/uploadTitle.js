@@ -1,6 +1,8 @@
 const uploadTitle = (results) => {
     const container = document.querySelector('#populares .main__grid')
 
+    container.innerHTML = ''
+
     results.forEach((elm) => {
         const template = `
             <div class="main__media">

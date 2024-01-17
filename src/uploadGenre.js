@@ -2,8 +2,11 @@ import fetchGenres from './fetchGenres'
 
 const containerGenre = document.getElementById('filtro-generos')
 
-const uploadGenre = async () => {
-    const genres = await fetchGenres()
+const uploadGenre = async (filter) => {
+    const genres = await fetchGenres(filter)
+
+    containerGenre.innerHTML = ''
+
     genres.forEach((genre) => {
         const btn = document.createElement('button')
         btn.classList.add('btn')
