@@ -11,7 +11,6 @@ const uploadTitle = (results) => {
                 <p class="main__media-fecha">${res.release_date}</p>
             </div>
         `
-
         container.insertAdjacentHTML('beforeend', template)
     })
 }
