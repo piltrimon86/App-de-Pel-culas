@@ -34,8 +34,8 @@ const fetchPopular = async (filter = 'movie') => {
         const response = await fetch(url);
         const data = await response.json();
         const result = data.results;
-        const genres = await fetchGenres();
 
+        const genres = await fetchGenres();
         result.forEach((elm) => {
             elm.genre = getGenre(elm.genre_ids[0], genres);
         });
@@ -72,9 +72,11 @@ const uploadTitle = (results) => {
         const template = `
             <div class="main__media">
                 <a href="#" class="main__media-thumb">
-            <img class="main__media-img" src="https://image.tmdb.org/t/p/w500/${elm.poster_path}" alt="" />            
+            <img class="main__media-img" src="https://image.tmdb.org/t/p/w500/${
+                elm.poster_path
+            }" alt="" />            
                 </a>
-                <p class="main__media-titulo">${elm.title}</p>
+                <p class="main__media-titulo">${elm.title || elm.name}</p>
                 <p class="main__media-fecha">${elm.genre}</p>
             </div>
         `;
@@ -131,6 +133,43 @@ container.addEventListener('click', (e) => {
         // Agregamos la clase active, para que el botón se marque al pulsar sobre él
         e.target.classList.add('btn--active');
     }
+});
+
+const fetchSearch = async () => {
+    const type = document.querySelector('.main__filtros .btn--active').id;
+    const idGenre = document.querySelector('#filtro-generos .btn--active')
+        ?.dataset.id;
+    const initialYear = document.getElementById('años-min').value || 1950;
+    const finalYear = document.getElementById('años-max').value || 2024;
+
+    let url;
+    if (type === 'movie') {
+        url = `https://api.themoviedb.org/3/discover/movie?api_key=31e525640d7e0c401602ee3129373d56&include_adult=false&include_video=false&language=es-ES&page=1&release_date.gte=${initialYear}&release_date.lte=${finalYear}&sort_by=popularity.desc&with_genres=${idGenre}`;
+    } else if (type === 'tv') {
+        url = `https://api.themoviedb.org/3/discover/tv?api_key=31e525640d7e0c401602ee3129373d56&first_air_date.gte=${initialYear}&first_air_date.lte=${finalYear}&include_adult=false&include_null_first_air_dates=false&language=es-ES&page=1&sort_by=popularity.desc&with_genres=${idGenre}`;
+    }
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const result = data.results;
+
+        const genres = await fetchGenres();
+        result.forEach((elm) => {
+            elm.genre = getGenre(elm.genre_ids[0], genres);
+        });
+
+        return result
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const btn = document.getElementById('btn-buscar');
+btn.addEventListener('click', async (e) => {
+    const results = await fetchSearch();
+
+    uploadTitle(results);
 });
 
 const upload = async () => {

@@ -10,8 +10,8 @@ const fetchPopular = async (filter = 'movie') => {
         const response = await fetch(url)
         const data = await response.json()
         const result = data.results
-        const genres = await fetchGenres()
 
+        const genres = await fetchGenres()
         result.forEach((elm) => {
             elm.genre = getGenre(elm.genre_ids[0], genres)
         })
