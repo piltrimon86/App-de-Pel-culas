@@ -135,7 +135,7 @@ container.addEventListener('click', (e) => {
     }
 });
 
-const fetchSearch = async () => {
+const fetchSearch = async (page = 1) => {
     const type = document.querySelector('.main__filtros .btn--active').id;
     const idGenre = document.querySelector('#filtro-generos .btn--active')
         ?.dataset.id;
@@ -144,9 +144,9 @@ const fetchSearch = async () => {
 
     let url;
     if (type === 'movie') {
-        url = `https://api.themoviedb.org/3/discover/movie?api_key=31e525640d7e0c401602ee3129373d56&include_adult=false&include_video=false&language=es-ES&page=1&release_date.gte=${initialYear}&release_date.lte=${finalYear}&sort_by=popularity.desc&with_genres=${idGenre}`;
+        url = `https://api.themoviedb.org/3/discover/movie?api_key=31e525640d7e0c401602ee3129373d56&include_adult=false&include_video=false&language=es-ES&page=${page}&release_date.gte=${initialYear}&release_date.lte=${finalYear}&sort_by=popularity.desc&with_genres=${idGenre}`;
     } else if (type === 'tv') {
-        url = `https://api.themoviedb.org/3/discover/tv?api_key=31e525640d7e0c401602ee3129373d56&first_air_date.gte=${initialYear}&first_air_date.lte=${finalYear}&include_adult=false&include_null_first_air_dates=false&language=es-ES&page=1&sort_by=popularity.desc&with_genres=${idGenre}`;
+        url = `https://api.themoviedb.org/3/discover/tv?api_key=31e525640d7e0c401602ee3129373d56&first_air_date.gte=${initialYear}&first_air_date.lte=${finalYear}&include_adult=false&include_null_first_air_dates=false&language=es-ES&page=${page}&sort_by=popularity.desc&with_genres=${idGenre}`;
     }
 
     try {
@@ -170,6 +170,43 @@ btn.addEventListener('click', async (e) => {
     const results = await fetchSearch();
 
     uploadTitle(results);
+});
+
+const previousPage = document.getElementById('pagina-anterior');
+const nextPage = document.getElementById('pagina-siguiente');
+
+nextPage.addEventListener('click', async (e) => {
+    const currentPage = document.getElementById('populares').dataset.pagina;
+
+    try {
+        const results = await fetchSearch(currentPage + 1);
+        document
+            .getElementById('populares')
+            .setAttribute('data-pagina', parseInt(currentPage) + 1);
+
+        uploadTitle(results);
+        window.scrollTo(0, 0);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+previousPage.addEventListener('click', async (e) => {
+    const currentPage = document.getElementById('populares').dataset.pagina;
+
+    if (currentPage > 1) {
+        try {
+            const results = await fetchSearch(currentPage - 1);
+            document
+                .getElementById('populares')
+                .setAttribute('data-pagina', parseInt(currentPage) - 1);
+
+            uploadTitle(results);
+            window.scrollTo(0, 0);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 });
 
 const upload = async () => {
