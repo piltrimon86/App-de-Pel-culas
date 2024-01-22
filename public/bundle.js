@@ -225,12 +225,12 @@ const fetchItem = async (id) => {
 };
 
 const container = document.getElementById('populares');
-const popUp = document.getElementById('media');
+const popUp$1 = document.getElementById('media');
 
 container.addEventListener('click', async (e) => {
     if (e.target.closest('.main__media')) {
         // Activamos la ventana emergente
-        popUp.classList.add('media--active');
+        popUp$1.classList.add('media--active');
 
         const id = e.target.closest('.main__media').dataset.id;
 
@@ -272,6 +272,14 @@ container.addEventListener('click', async (e) => {
         `;
 
         document.querySelector('#media .media__contenedor').innerHTML = template;
+    }
+});
+
+const popUp = document.getElementById('media');
+
+popUp.addEventListener('click', (e) => {
+    if (e.target.closest('button')) {
+        popUp.classList.remove('media--active');
     }
 });
 
