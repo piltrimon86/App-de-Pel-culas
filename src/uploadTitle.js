@@ -5,7 +5,7 @@ const uploadTitle = (results) => {
 
     results.forEach((elm) => {
         const template = `
-            <div class="main__media">
+            <div class="main__media" data-id="${elm.id}">
                 <a href="#" class="main__media-thumb">
             <img class="main__media-img" src="https://image.tmdb.org/t/p/w500/${
                 elm.poster_path

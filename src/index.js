@@ -5,6 +5,7 @@ import './listenerFilter'
 import './listenerFilterGenre'
 import './listenerSearch'
 import './pagination'
+import './listenerItems'
 
 const upload = async () => {
     const results = await fetchPopular()
