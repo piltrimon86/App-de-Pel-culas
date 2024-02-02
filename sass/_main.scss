@@ -1,49 +1,50 @@
 @use 'variables';
 
 .main {
-	margin: auto;
-	padding: 40px 80px;
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 40px;
+    margin: auto;
+    padding: 40px 80px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
 
-	&__filtros {
-		display: flex;
-		gap: 10px;
-	}
+    &__filtros {
+        display: flex;
+        gap: 10px;
+    }
 
-	&__titulo {
-		margin-bottom: 20px;
-	}
+    &__titulo {
+        margin-bottom: 20px;
+    }
 
-	&__grid {
-		display: grid;
-		gap: 20px;
-		grid-template-columns: repeat(6, 1fr);
-	}
+    &__grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(6, 1fr);
+    }
 
-	&__media-titulo {
-		font-weight: 600;
-		text-align: center;
-	}
+    &__media-titulo {
+        font-weight: 600;
+        text-align: center;
+    }
 
-	&__media-fecha {
-		text-align: center;
-		font-size: 14px;
-	}
+    &__media-fecha {
+        text-align: center;
+        font-size: 14px;
+    }
 
-	&__media-img {
-		width: 100%;
-		vertical-align: top;
-		border-radius: 10px;
-		margin-bottom: 10px;
-		background: variables.$color-btn;
-		min-height: 170px;
-	}
+    &__media-img {
+        width: 100%;
+        vertical-align: top;
+        border-radius: 10px;
+        border: #2d2d33 5px solid;
+        margin-bottom: 10px;
+        background: variables.$color-btn;
+        min-height: 170px;
+    }
 
-	&__paginacion {
-		display: flex;
-		justify-content: center;
-		gap: 20px;
-	}
+    &__paginacion {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
 }
