@@ -5,6 +5,8 @@ const previousPage = document.getElementById('pagina-anterior')
 const nextPage = document.getElementById('pagina-siguiente')
 
 nextPage.addEventListener('click', async (e) => {
+    e.preventDefault()
+
     const currentPage = document.getElementById('populares').dataset.pagina
 
     try {
@@ -21,6 +23,8 @@ nextPage.addEventListener('click', async (e) => {
 })
 
 previousPage.addEventListener('click', async (e) => {
+    e.preventDefault()
+
     const currentPage = document.getElementById('populares').dataset.pagina
 
     if (currentPage > 1) {
